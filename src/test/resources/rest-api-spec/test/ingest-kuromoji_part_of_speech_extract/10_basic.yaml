@@ -1,0 +1,11 @@
+"ingest-kuromoji_part_of_speech_extract plugin installed":
+    - do:
+        cluster.state: {}
+
+    - set: {master_node: master}
+
+    - do:
+        nodes.info: {}
+
+    - match:  { nodes.$master.plugins.0.name: ingest-kuromoji_part_of_speech_extract }
+    - match:  { nodes.$master.ingest.processors.0.type: kuromoji_pos_extract }

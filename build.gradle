@@ -1,0 +1,57 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath "org.elasticsearch.gradle:build-tools:5.0.0-alpha4"
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven {
+        url "http://maven.codelibs.org/"
+    }
+    jcenter()
+}
+
+group = 'org.elasticsearch.plugin.ingest'
+version = '0.0.1-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'elasticsearch.esplugin'
+apply plugin: 'com.bmuschko.nexus'
+apply plugin: 'idea'
+
+esplugin {
+    name 'ingest-kuromoji_part_of_speech_extract'
+    description 'Extract terms that have specified part-of-speech at settings'
+    classname 'org.elasticsearch.plugin.ingest.kuromoji_part_of_speech_extract.IngestKuromojiPartOfSpeechExtractPlugin'
+}
+
+// In this section you declare the dependencies for your production and test code
+// Note, the two dependencies are not really needed as the buildscript dependency gets them in already
+// they are just here as an example
+dependencies {
+    compile "org.elasticsearch:elasticsearch:${versions.elasticsearch}"
+    compile "org.codelibs:lucene-analyzers-kuromoji-ipadic-neologd:6.1.0-20160714"
+
+    testCompile "org.elasticsearch.test:framework:${versions.elasticsearch}"
+}
+
+// Uncomment to not use elasticsearch checkstyle rules
+// checkstyleMain.enabled = false
+// checkstyleTest.enabled = false
+
+// FIXME dependency license check needs to be enabled
+dependencyLicenses.enabled = false
+
+// FIXME thirdparty audit needs to be enabled
+thirdPartyAudit.enabled = false
+
+// Uncomment this to skip license header checks
+// licenseHeaders.enabled = false

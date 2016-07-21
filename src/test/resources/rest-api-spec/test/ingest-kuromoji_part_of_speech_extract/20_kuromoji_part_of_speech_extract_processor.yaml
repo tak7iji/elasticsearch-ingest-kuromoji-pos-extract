@@ -1,0 +1,36 @@
+---
+"Test kuromoji_part_of_speech_extract processor with defaults":
+  - do:
+      ingest.put_pipeline:
+        id: "my_pipeline"
+        body:  >
+          {
+            "description": "_description",
+            "processors": [
+              {
+                "kuromoji_pos_extract" : {
+                  "field" : "field1",
+                  "target_field" : "field2",
+                  "pos_tags" : ["名詞-固有名詞-地域-一般", "名詞-一般"]
+                }
+              }
+            ]
+          }
+  - match: { acknowledged: true }
+
+  - do:
+      index:
+        index: test
+        type: test
+        id: 1
+        pipeline: "my_pipeline"
+        body: {field1: "今日は友達と渋谷でランチを食べた。"}
+
+  - do:
+      get:
+        index: test
+        type: test
+        id: 1
+  - match: { _source.field1: "今日は友達と渋谷でランチを食べた。" }
+  - match: { _source.field2: ["友達", "渋谷", "ランチ"] }
+
