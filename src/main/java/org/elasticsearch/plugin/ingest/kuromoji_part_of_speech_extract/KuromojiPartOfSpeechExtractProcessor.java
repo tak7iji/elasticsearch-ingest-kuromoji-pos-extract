@@ -87,14 +87,17 @@ public class KuromojiPartOfSpeechExtractProcessor extends AbstractProcessor {
         // tokenizer with part-of-speech
         List<String> filteredTokens = new ArrayList<>();
         if (Strings.isNullOrEmpty(content) == false) {
-            TokenStream tokens = this.kuromojiAnalyzer.tokenStream("field", content);
-            tokens.reset();
-            CharTermAttribute termAttr = tokens.getAttribute(CharTermAttribute.class);
-            while (tokens.incrementToken()) {
-                filteredTokens.add(termAttr.toString());
-            }
+            try (TokenStream tokens = this.kuromojiAnalyzer.tokenStream("field", content)) {
+                tokens.reset();
+                CharTermAttribute termAttr = tokens.getAttribute(CharTermAttribute.class);
+                while (tokens.incrementToken()) {
+                    filteredTokens.add(termAttr.toString());
+                }
+                tokens.end();
 
-            ingestDocument.setFieldValue(targetField, filteredTokens);
+                ingestDocument.setFieldValue(targetField, filteredTokens);
+                tokens.close();
+            }
         }
     }
 
