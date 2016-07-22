@@ -33,7 +33,7 @@ PUT /my-index/my-type/1?pipeline_id=opennlp-pipeline
 GET /my-index/my-type/1
 {
   "my_field" : "美味しいお寿司を大手町で食べました。"
-  "noun_only_field": []
+  "noun_only_field": ["寿司","大手町"]
 }
 ```
 
