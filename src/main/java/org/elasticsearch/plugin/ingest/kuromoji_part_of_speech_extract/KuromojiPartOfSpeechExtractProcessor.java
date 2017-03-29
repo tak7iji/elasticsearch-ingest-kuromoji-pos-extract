@@ -28,8 +28,8 @@ import org.codelibs.neologd.ipadic.lucene.analysis.ja.JapaneseTokenizerFactory;
 import org.elasticsearch.common.Strings;
 import org.elasticsearch.index.analysis.JapanesePartOfSpeechKeepFilterFactory;
 import org.elasticsearch.ingest.AbstractProcessor;
-import org.elasticsearch.ingest.AbstractProcessorFactory;
 import org.elasticsearch.ingest.IngestDocument;
+import org.elasticsearch.ingest.Processor;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -96,7 +96,6 @@ public class KuromojiPartOfSpeechExtractProcessor extends AbstractProcessor {
                 tokens.end();
 
                 ingestDocument.setFieldValue(targetField, filteredTokens);
-                tokens.close();
             }
         }
     }
@@ -106,10 +105,10 @@ public class KuromojiPartOfSpeechExtractProcessor extends AbstractProcessor {
         return TYPE;
     }
 
-    public static final class Factory extends AbstractProcessorFactory<KuromojiPartOfSpeechExtractProcessor> {
+    public static final class Factory implements Processor.Factory {
 
         @Override
-        public KuromojiPartOfSpeechExtractProcessor doCreate(String processorTag, Map<String, Object> config) throws Exception {
+        public KuromojiPartOfSpeechExtractProcessor create(Map<String, Processor.Factory> factories, String processorTag, Map<String, Object> config) throws Exception {
             String field = readStringProperty(TYPE, processorTag, config, "field");
             String targetField = readStringProperty(TYPE, processorTag, config, "target_field", "default_field_name");
 

@@ -30,6 +30,9 @@ public class JapanesePartOfSpeechKeepFilterFactory extends TokenFilterFactory {
 
     /**
      * Creates a new JapanesePartOfSpeechKeepFilterFactory
+     *
+     * @param args arguments
+     * @param posTags part-of-speech tags
      */
     public JapanesePartOfSpeechKeepFilterFactory(Map<String, String> args, List<String> posTags) {
         super(args);

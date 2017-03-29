@@ -17,16 +17,17 @@
 
 package org.elasticsearch.plugin.ingest.kuromoji_part_of_speech_extract;
 
-import org.elasticsearch.node.NodeModule;
+import java.util.Collections;
+import java.util.Map;
+
+import org.elasticsearch.ingest.Processor;
+import org.elasticsearch.plugins.IngestPlugin;
 import org.elasticsearch.plugins.Plugin;
 
-import java.io.IOException;
+public class IngestKuromojiPartOfSpeechExtractPlugin extends Plugin implements IngestPlugin {
 
-public class IngestKuromojiPartOfSpeechExtractPlugin extends Plugin {
-
-    public void onModule(NodeModule nodeModule) throws IOException {
-        nodeModule.registerProcessor(KuromojiPartOfSpeechExtractProcessor.TYPE,
-            (registry) -> new KuromojiPartOfSpeechExtractProcessor.Factory());
+    @Override
+    public Map<String, Processor.Factory> getProcessors(Processor.Parameters parameters) {
+        return Collections.singletonMap(KuromojiPartOfSpeechExtractProcessor.TYPE, new KuromojiPartOfSpeechExtractProcessor.Factory());
     }
-
 }
