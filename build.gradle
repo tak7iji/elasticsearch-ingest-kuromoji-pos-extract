@@ -39,6 +39,7 @@ dependencies {
     compile "org.elasticsearch:elasticsearch:${versions.elasticsearch}"
     compile "org.codelibs:lucene-analyzers-kuromoji-ipadic-neologd:6.1.0-20160714"
 
+    testCompile "org.apache.lucene:lucene-test-framework:${versions.lucene}"
     testCompile "org.elasticsearch.test:framework:${versions.elasticsearch}"
 }
 
